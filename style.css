@@ -54,4 +54,10 @@ button {
     z-index: -1; /* Placez l'image en arrière-plan */
 }
   
-
+.devs {
+    display:flex;
+    justify-content: space-around;
+    flex-wrap: nowrap;
+    align-items: center;
+    
+}
