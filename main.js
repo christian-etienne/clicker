@@ -60,14 +60,26 @@ function deactivateBonus() {
 }
 
 // Fonction pour afficher le message insuffisant et le rendre rouge pendant 2 secondes
+// function showInsufficientMessage() {
+//     const insufficientMessage = document.getElementById('insufficientScoreMessage');
+//     insufficientMessage.style.color = 'red'; // Mettre le texte en rouge
+//     insufficientMessage.textContent = "Votre nombre de codes est insuffisant pour acheter ce personnage.";
+//     // Réinitialiser le message après 2 secondes
+//     setTimeout(() => {
+//         insufficientMessage.textContent = ""; // Effacer le message
+//     }, 2000); // Attendre 2 secondes avant de réinitialiser le message
+// }
+
+// Fonction pour afficher le message insuffisant sous forme d'alerte Bootstrap
 function showInsufficientMessage() {
-    const insufficientMessage = document.getElementById('insufficientScoreMessage');
-    insufficientMessage.style.color = 'red'; // Mettre le texte en rouge
-    insufficientMessage.textContent = "Votre nombre de codes est insuffisant pour acheter ce personnage.";
-    // Réinitialiser le message après 2 secondes
+    const insufficientAlert = document.getElementById('insufficientAlert');
+    insufficientAlert.classList.add('show'); // Afficher l'alerte
+    insufficientAlert.classList.add('fade'); // Ajouter la classe fade pour l'animation
+    insufficientAlert.style.display = 'block'; // Afficher l'alerte
     setTimeout(() => {
-        insufficientMessage.textContent = ""; // Effacer le message
-    }, 2000); // Attendre 2 secondes avant de réinitialiser le message
+        insufficientAlert.classList.remove('show'); // Masquer l'alerte après 2 secondes
+        insufficientAlert.style.display = 'none'; // Masquer l'alerte après 2 secondes
+    }, 2000); // Attendre 2 secondes avant de masquer l'alerte
 }
 
 // Fonction pour gérer l'achat du développeur junior
@@ -92,6 +104,102 @@ function buyJuniorDeveloper() {
     });
 }
 
+// Fonction pour gérer l'achat du développeur expert
+function buyExpertDeveloper() {
+    const expertButton = document.getElementById('devE');
+
+    // Ajouter un écouteur d'événements sur le bouton du développeur expert
+    expertButton.addEventListener('click', () => {
+        // Vérifier si le score est suffisant pour acheter le développeur expert (1000 codes)
+        if (score >= 1000) {
+            // Mettre à jour le score et afficher un message
+            score -= 1000; // Déduire le coût du développeur expert du score
+            document.getElementById('score').textContent = score;
+            // Activer le bonus et démarrer le timer de 20 secondes
+            activateExpertBonus();
+            // Mettre à jour l'affichage du score
+            document.getElementById('score').textContent = score;
+        } else {
+            // Afficher un message insuffisant en rouge
+            showInsufficientMessage();
+        }
+    });
+}
+
+// Fonction pour multiplier le score de +30 à chaque clic avec le bonus expert
+function clickWithExpertBonus() {
+    score += 30; // Ajoute 30 au score à chaque clic
+    document.getElementById('score').textContent = score;
+}
+
+// Fonction pour activer le bonus expert
+function activateExpertBonus() {
+    // Vérifier si le bonus est déjà actif
+    if (!bonusActive) {
+        // Mettre à jour le statut du bonus
+        bonusActive = true;
+        // Mettre à jour le bouton pour multiplier le score par 30 (expert)
+        clickButton.addEventListener('click', clickWithExpertBonus);
+        // Afficher le message de bonus actif
+        bonusTimerDisplay.style.display = 'inline'; // Afficher le timer dans la nav
+        // Démarrer le timer de 20 secondes pour désactiver le bonus
+        let count = 20; // Initialiser le compte à rebours à 20 secondes
+        bonusTimerDisplay.textContent = `Bonus actif: ${count}s`; // Afficher le temps restant
+        bonusTimer = setInterval(() => {
+            count--; // Décrémenter le compte à rebours
+            if (count <= 0) {
+                clearInterval(bonusTimer); // Arrêter le timer lorsque le compte à rebours atteint 0
+                deactivateBonus(); // Désactiver le bonus
+            } else {
+                bonusTimerDisplay.textContent = `Bonus actif: ${count}s`; // Mettre à jour le temps restant
+            }
+        }, 1000); // Actualiser le timer toutes les secondes
+    }
+}
+
+
+// Fonction pour gérer l'achat du développeur master
+function buyMasterDeveloper() {
+    const masterButton = document.getElementById('devM');
+
+    // Ajouter un écouteur d'événements sur le bouton du développeur master
+    masterButton.addEventListener('click', () => {
+        // Vérifier si le score est suffisant pour acheter le développeur master (3000 codes)
+        if (score >= 3000) {
+            // Mettre à jour le score et afficher un message
+            score -= 3000; // Déduire le coût du développeur master du score
+            document.getElementById('score').textContent = score;
+            // Activer le bonus et démarrer le mode automatique pendant 20 secondes
+            activateMasterBonus();
+            // Mettre à jour l'affichage du score
+            document.getElementById('score').textContent = score;
+        } else {
+            // Afficher un message insuffisant en rouge
+            showInsufficientMessage();
+        }
+    });
+}
+
+// Fonction pour multiplier le score de +20 en mode automatique pendant 20 secondes avec le bonus master
+function activateMasterBonus() {
+    // Activer le mode automatique pour 20 secondes
+    let count = 20; // Initialiser le compte à rebours à 20 secondes
+    const autoClick = setInterval(() => {
+        count--; // Décrémenter le compte à rebours
+        if (count <= 0) {
+            clearInterval(autoClick); // Arrêter le mode automatique lorsque le compte à rebours atteint 0
+        } else {
+            score += 20; // Ajouter 20 au score en mode automatique
+            document.getElementById('score').textContent = score; // Mettre à jour l'affichage du score
+        }
+    }, 1000); // Actualiser le score toutes les secondes
+}
+
+// Appeler la fonction pour gérer l'achat du développeur master
+buyMasterDeveloper();
+
+// Appeler la fonction pour gérer l'achat du développeur expert
+buyExpertDeveloper();
 
 
 
