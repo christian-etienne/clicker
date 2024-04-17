@@ -8,10 +8,125 @@
     <title> Hyper Drive Master </title>
 </head>
 <body>
-    <h1>Hyper Drive Master</h1>
-    <p>Nombre de Parsecs: <span id="score">0</span></p>
-    <button onclick="clickButton()">Click Me!</button>
-    
+    <header></header>
+    <div class="gameFullContent">
+
+
+    <div class="leftContainer">
+        <h1 class="parsecsAmountDisplay"><span class="parsecsAmount">0</span> Parsecs</h1>
+        <p class="pSecRate"><span class="pSecRateNumber">0</span> Parsecs/sec</p>
+        <img class="lune" src="assets/images/lune-clic.png">
+    </div>
+
+
+    <div class="mainGameContent">
+        <h1>Hyper Drive Master</h1>
+        <canvas id="gameCanvas" width="400" height="300"></canvas>
+        <button id="startButton">Jouer</button>
+        <span class="version"></span>
+        <button class="resetButton">Reset</button>
+    </div>
+
+
+    <div class="rightContainer buyItemContainer">
+        <ul class="purchaseList">
+            <li class="purchaseItem" id="item_oldCalculator" data-price="0.0000001" data-bits-per-sec="0.00000001">
+                <span class="amountOfItem">0</span>
+                <p class="itemHeadline">Vieux Calculateur</p>
+                <p class="itemPrice">0.0000001 Parsecs</p>
+            </li>
+            <li class="purchaseItem" id="item_oldCpu" data-price="0.00000125" data-bits-per-sec="0.0000001">
+                <span class="amountOfItem">0</span>
+                <p class="itemHeadline">Vieux CPU</p>
+                <p class="itemPrice">0.00000125 Parsecs</p>
+            </li>
+            <li class="purchaseItem" id="item_oldComputerFromGrandpa" data-price="0.00003" data-bits-per-sec="0.000005">
+                <span class="amountOfItem">0</span>
+                <p class="itemHeadline">Ordinateur de Grand-mère</p>
+                <p class="itemPrice">0.00003 Parsecs</p>
+            </li>
+            <li class="purchaseItem" id="item_rapsberrypy" data-price="0.00005" data-bits-per-sec="0.0000075">
+                <span class="amountOfItem">0</span>
+                <p class="itemHeadline">Rapsberry Py</p>
+                <p class="itemPrice">0.00005 Parsecs</p>
+            </li>
+            <li class="purchaseItem" id="item_smartphone" data-price="0.0005" data-bits-per-sec="0.000075">
+                <span class="amountOfItem">0</span>
+                <p class="itemHeadline">Smartphone</p>
+                <p class="itemPrice">0.0005 Parsecs</p>
+            </li>
+            <li class="purchaseItem" id="item_middleClassPC" data-price="0.0015" data-bits-per-sec="0.000175">
+                <span class="amountOfItem">0</span>
+                <p class="itemHeadline">PC Moyen</p>
+                <p class="itemPrice">0.0015 Parsecs</p>
+            </li>
+            <li class="purchaseItem" id="item_cheapServer" data-price="0.0040" data-bits-per-sec="0.000375">
+                <span class="amountOfItem">0</span>
+                <p class="itemHeadline">Mini serveur</p>
+                <p class="itemPrice">0.0040 Parsecs</p>
+            </li>
+            <li class="purchaseItem" id="item_gamingPC" data-price="0.015" data-bits-per-sec="0.00175">
+                <span class="amountOfItem">0</span>
+                <p class="itemHeadline">PC Gaming</p>
+                <p class="itemPrice">0.015 Parsecs</p>
+            </li>
+            <li class="purchaseItem" id="item_cheapMiner" data-price="0.05" data-bits-per-sec="0.007">
+                <span class="amountOfItem">0</span>
+                <p class="itemHeadline">Formation à La Plateforme</p>
+                <p class="itemPrice">0.05 Parsecs</p>
+            </li>
+            <li class="purchaseItem" id="item_highEndUltraPC" data-price="0.15" data-bits-per-sec="0.021">
+                <span class="amountOfItem">0</span>
+                <p class="itemHeadline">PC Ultra Haut de gamme</p>
+                <p class="itemPrice">0.15 Parsecs</p>
+            </li>
+            <li class="purchaseItem" id="item_bigMiner" data-price="1.5" data-bits-per-sec="0.2">
+                <span class="amountOfItem">0</span>
+                <p class="itemHeadline">Développeur professionnel</p>
+                <p class="itemPrice">1.5 Parsecs</p>
+            </li>
+            <li class="purchaseItem" id="item_miningFarm" data-price="250" data-bits-per-sec="25">
+                <span class="amountOfItem">0</span>
+                <p class="itemHeadline">Intelligence artificielle</p>
+                <p class="itemPrice">250 Parsecs</p>
+            </li>
+            <li class="purchaseItem" id="item_nasaPC" data-price="5000" data-bits-per-sec="500">
+                <span class="amountOfItem">0</span>
+                <p class="itemHeadline">PC de la NASA</p>
+                <p class="itemPrice">5.000 Parsecs</p>
+            </li>
+            <li class="purchaseItem" id="item_quantumRig" data-price="245000" data-bits-per-sec="24000">
+                <span class="amountOfItem">0</span>
+                <p class="itemHeadline">Ordinateur Quantique</p>
+                <p class="itemPrice">245.000 Parsecs</p>
+            </li>
+            <li class="purchaseItem" id="item_miningFarmSpace" data-price="2000000" data-bits-per-sec="95000">
+                <span class="amountOfItem">0</span>
+                <p class="itemHeadline">Usine de codage IA</p>
+                <p class="itemPrice">2.000.000 Parsecs</p>
+            </li>
+            <li class="purchaseItem" id="item_miningFarmMoon" data-price="37500000" data-bits-per-sec="6750">
+                <span class="amountOfItem">0</span>
+                <p class="itemHeadline">Décollage dans l'espace</p>
+                <p class="itemPrice">75.500.000 Parsecs</p>
+            </li>
+            <li class="purchaseItem" id="item_ParsecsTimeMachine" data-price="500000000" data-bits-per-sec="80000000">
+                <span class="amountOfItem">0</span>
+                <p class="itemHeadline">Machine à voyager dans la temps</p>
+                <p class="itemPrice">975.000.000 Parsecs</p>
+            </li>
+            <li class="purchaseItem" id="item_blackHolePoweredMiner" data-price="75000000000" data-bits-per-sec="1750000000">
+                <span class="amountOfItem">0</span>
+                <p class="itemHeadline">Voyage dans un trou noir</p>
+                <p class="itemPrice">750.000.000.000 Parsecs</p>
+            </li>
+        </ul>
+    </div>
+
+
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="assets/js/script.js"></script>
+    <script src="assets/js/jeu-space.js"></script>
 </body>
 </html>
