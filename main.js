@@ -14,72 +14,18 @@ clickButton.addEventListener('click', () => {
     document.getElementById('score').textContent = score;
 });
 
-
-
-
-
-// Fonction pour multiplier le score de +10 à chaque clic avec le bonus
-function clickWithBonus() {
-    score += 10; // Ajoute 10 au score à chaque clic
+function clickWithNormalBonus() {
+    score++;
     document.getElementById('score').textContent = score;
 }
 
-// Fonction pour activer le bonus
-function activateBonus() {
-    // Vérifier si le bonus est déjà actif
-    if (!bonusActive) {
-        // Mettre à jour le statut du bonus
-        bonusActive = true;
-        // Mettre à jour le bouton pour multiplier le score par 10
-        clickButton.addEventListener('click', clickWithBonus);
-        // Afficher le message de bonus actif
-        bonusTimerDisplay.style.display = 'inline'; // Afficher le timer dans la nav
-        // Démarrer le timer de 20 secondes pour désactiver le bonus
-        let count = 20; // Initialiser le compte à rebours à 20 secondes
-        bonusTimerDisplay.textContent = `Bonus actif: ${count}s`; // Afficher le temps restant
-        bonusTimer = setInterval(() => {
-            count--; // Décrémenter le compte à rebours
-            if (count <= 0) {
-                clearInterval(bonusTimer); // Arrêter le timer lorsque le compte à rebours atteint 0
-                deactivateBonus(); // Désactiver le bonus
-            } else {
-                bonusTimerDisplay.textContent = `Bonus actif: ${count}s`; // Mettre à jour le temps restant
-            }
-        }, 1000); // Actualiser le timer toutes les secondes
-    }
-}
 
-// Fonction pour désactiver le bonus
-function deactivateBonus() {
-    // Mettre à jour le statut du bonus
-    bonusActive = false;
-    // Retirer l'événement click avec le bonus
-    clickButton.removeEventListener('click', clickWithBonus);
-    // Masquer le message de bonus actif
-    bonusTimerDisplay.style.display = 'none'; // Masquer le timer dans la nav
-}
 
-// Fonction pour afficher le message insuffisant et le rendre rouge pendant 2 secondes
-// function showInsufficientMessage() {
-//     const insufficientMessage = document.getElementById('insufficientScoreMessage');
-//     insufficientMessage.style.color = 'red'; // Mettre le texte en rouge
-//     insufficientMessage.textContent = "Votre nombre de codes est insuffisant pour acheter ce personnage.";
-//     // Réinitialiser le message après 2 secondes
-//     setTimeout(() => {
-//         insufficientMessage.textContent = ""; // Effacer le message
-//     }, 2000); // Attendre 2 secondes avant de réinitialiser le message
-// }
+
 
 // Fonction pour afficher le message insuffisant sous forme d'alerte Bootstrap
 function showInsufficientMessage() {
-    const insufficientAlert = document.getElementById('insufficientAlert');
-    insufficientAlert.classList.add('show'); // Afficher l'alerte
-    insufficientAlert.classList.add('fade'); // Ajouter la classe fade pour l'animation
-    insufficientAlert.style.display = 'block'; // Afficher l'alerte
-    setTimeout(() => {
-        insufficientAlert.classList.remove('show'); // Masquer l'alerte après 2 secondes
-        insufficientAlert.style.display = 'none'; // Masquer l'alerte après 2 secondes
-    }, 2000); // Attendre 2 secondes avant de masquer l'alerte
+    alert("Votre nombre de codes est insuffisant pour acheter ce personnage.");
 }
 
 // Fonction pour gérer l'achat du développeur junior
@@ -94,9 +40,10 @@ function buyJuniorDeveloper() {
             score -= 25; // Déduire le coût du développeur junior du score
             document.getElementById('score').textContent = score;
             // Activer le bonus et démarrer le timer de 20 secondes
-            activateBonus();
+            activateBonus(10); // Le bonus du développeur junior est de +10 par clic
             // Mettre à jour l'affichage du score
             document.getElementById('score').textContent = score;
+            bonusActive = false; // Réinitialiser bonusActive
         } else {
             // Afficher un message insuffisant en rouge
             showInsufficientMessage();
@@ -115,84 +62,105 @@ function buyExpertDeveloper() {
             // Mettre à jour le score et afficher un message
             score -= 1000; // Déduire le coût du développeur expert du score
             document.getElementById('score').textContent = score;
-            // Activer le bonus et démarrer le timer de 20 secondes
-            activateExpertBonus();
+            // Activer le bonus expert et démarrer le timer de 20 secondes
+            activateBonus(30); // Le bonus du développeur expert est de +30 par clic
             // Mettre à jour l'affichage du score
             document.getElementById('score').textContent = score;
+            bonusActive = false; // Réinitialiser bonusActive
         } else {
             // Afficher un message insuffisant en rouge
             showInsufficientMessage();
         }
     });
 }
-
-// Fonction pour multiplier le score de +30 à chaque clic avec le bonus expert
-function clickWithExpertBonus() {
-    score += 30; // Ajoute 30 au score à chaque clic
-    document.getElementById('score').textContent = score;
-}
-
-// Fonction pour activer le bonus expert
-function activateExpertBonus() {
-    // Vérifier si le bonus est déjà actif
-    if (!bonusActive) {
-        // Mettre à jour le statut du bonus
-        bonusActive = true;
-        // Mettre à jour le bouton pour multiplier le score par 30 (expert)
-        clickButton.addEventListener('click', clickWithExpertBonus);
-        // Afficher le message de bonus actif
-        bonusTimerDisplay.style.display = 'inline'; // Afficher le timer dans la nav
-        // Démarrer le timer de 20 secondes pour désactiver le bonus
-        let count = 20; // Initialiser le compte à rebours à 20 secondes
-        bonusTimerDisplay.textContent = `Bonus actif: ${count}s`; // Afficher le temps restant
-        bonusTimer = setInterval(() => {
-            count--; // Décrémenter le compte à rebours
-            if (count <= 0) {
-                clearInterval(bonusTimer); // Arrêter le timer lorsque le compte à rebours atteint 0
-                deactivateBonus(); // Désactiver le bonus
-            } else {
-                bonusTimerDisplay.textContent = `Bonus actif: ${count}s`; // Mettre à jour le temps restant
-            }
-        }, 1000); // Actualiser le timer toutes les secondes
-    }
-}
-
 
 // Fonction pour gérer l'achat du développeur master
 function buyMasterDeveloper() {
     const masterButton = document.getElementById('devM');
-
-    // Ajouter un écouteur d'événements sur le bouton du développeur master
+  
     masterButton.addEventListener('click', () => {
-        // Vérifier si le score est suffisant pour acheter le développeur master (3000 codes)
-        if (score >= 3000) {
-            // Mettre à jour le score et afficher un message
-            score -= 3000; // Déduire le coût du développeur master du score
-            document.getElementById('score').textContent = score;
-            // Activer le bonus et démarrer le mode automatique pendant 20 secondes
-            activateMasterBonus();
-            // Mettre à jour l'affichage du score
-            document.getElementById('score').textContent = score;
-        } else {
-            // Afficher un message insuffisant en rouge
-            showInsufficientMessage();
-        }
+      if (score >= 3000) {
+        score -= 3000;
+        document.getElementById('score').textContent = score;
+  
+        // Activer le bonus automatique et démarrer le timer de 20 secondes
+        activateAutoBonus(100);
+      } else {
+        showInsufficientMessage();
+      }
     });
+
+}
+  
+
+
+
+function autoClickWithBonus(bonusValue) {
+    score += bonusValue;
+    document.getElementById('score').textContent = score;
 }
 
-// Fonction pour multiplier le score de +20 en mode automatique pendant 20 secondes avec le bonus master
-function activateMasterBonus() {
-    // Activer le mode automatique pour 20 secondes
+function activateAutoBonus(bonusValue) {
+    bonusActive = true;
+    let count = 20;
+  
+    bonusTimerDisplay.style.display = 'inline';
+    bonusTimerDisplay.textContent = `Bonus actif: ${count}s`;
+  
+    let autoClickInterval = setInterval(() => {
+      autoClickWithBonus(bonusValue);
+    }, 100); // Générer un clic automatique toutes les 100 millisecondes
+  
+    bonusTimer = setInterval(() => {
+      count--;
+  
+      if (count <= 0) {
+        clearInterval(bonusTimer);
+        clearInterval(autoClickInterval);
+        bonusTimerDisplay.style.display = 'none';
+        bonusActive = false;
+      } else {
+        bonusTimerDisplay.textContent = `Bonus actif: ${count}s`;
+      }
+    }, 1000);
+
+
+}
+  
+
+
+// Fonction pour multiplier le score de manière spécifique avec le bonus actif
+function clickWithBonus(bonusValue) {
+    score += bonusValue; // Ajoute la valeur du bonus au score à chaque clic
+    document.getElementById('score').textContent = score;
+}
+
+function activateBonus(bonusValue) {
+    // Stocker l'événement de clic actuel
+    const currentClickEvent = clickButton.onclick;
+
+    // Mettre à jour le statut du bonus
+    bonusActive = true;
+    // Mettre à jour le bouton pour multiplier le score par la valeur spécifiée
+    clickButton.onclick = () => clickWithBonus(bonusValue);
+    // Afficher le message de bonus actif
+    bonusTimerDisplay.style.display = 'inline'; // Afficher le timer dans la nav
+    // Démarrer le timer de 20 secondes pour désactiver le bonus
     let count = 20; // Initialiser le compte à rebours à 20 secondes
-    const autoClick = setInterval(() => {
+    bonusTimerDisplay.textContent = `Bonus actif: ${count}s`; // Afficher le temps restant
+    bonusTimer = setInterval(() => {
         count--; // Décrémenter le compte à rebours
         if (count <= 0) {
-            clearInterval(autoClick); // Arrêter le mode automatique lorsque le compte à rebours atteint 0
+            clearInterval(bonusTimer); // Arrêter le timer lorsque le compte à rebours atteint 0
+            bonusTimerDisplay.style.display = 'none'; // Cacher le timer
+            bonusActive = false; // Désactiver le bonus
+
+            // Réinitialiser l'événement de clic du bouton
+            clickButton.onclick = currentClickEvent || clickWithNormalBonus;
         } else {
-            score += 20; // Ajouter 20 au score en mode automatique
-            document.getElementById('score').textContent = score; // Mettre à jour l'affichage du score
+            bonusTimerDisplay.textContent = `Bonus actif: ${count}s`; // Mettre à jour le temps restant
         }
-    }, 1000); // Actualiser le score toutes les secondes
+    }, 1000); // Actualiser le timer toutes les secondes
 }
 
 // Appeler la fonction pour gérer l'achat du développeur master
@@ -200,8 +168,6 @@ buyMasterDeveloper();
 
 // Appeler la fonction pour gérer l'achat du développeur expert
 buyExpertDeveloper();
-
-
 
 // Appeler la fonction pour gérer l'achat du développeur junior
 buyJuniorDeveloper();
