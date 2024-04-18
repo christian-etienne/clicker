@@ -19,6 +19,22 @@ body {
     width: 100%;
     display: flex;
 }
+.alerte {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #000000; /* couleur de fond */
+    border: 1px solid #cccccc; /* bordure */
+    padding: 10px; /* espace intérieur */
+    border-radius: 5px; /* coins arrondis */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* ombre */
+    z-index: 1000; /* au-dessus de tout le reste */
+}
+.astronaut {
+    max-width: 5%; /* Largeur maximale de l'image : 10% de la largeur du conteneur */
+    max-height: 5%; /* Hauteur maximale de l'image : 10% de la hauteur du conteneur */
+  }
 
 /* Left Container */
 .leftContainer{
@@ -27,6 +43,13 @@ body {
     overflow-y: auto;
     overflow-x: hidden;
     text-align: center;
+}
+
+.bottomBadge {
+    position: absolute;
+    bottom: 5%;
+    transform: translateX(-50%);
+    width: 10%;
 }
 
 .parsecAmountDisplay{

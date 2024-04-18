@@ -108,6 +108,17 @@ const updateParsecs = () => {
   parsecs += parsecsPerSecond;
   localStorage.setItem("parsecs", parsecs);
   updateParsecsDisplay();
+  // Vérifie si le score du joueur dépasse les seuils pour les badges et affiche le badge correspondant si c'est le cas
+  if (parsecs > 0.001 && !badge1Affiche) {
+    afficherBadgeEtAlerte(parsecs, 1);
+    badge1Affiche = true;
+  } else if (parsecs > 1 && !badge2Affiche) {
+    afficherBadgeEtAlerte(parsecs, 2);
+    badge2Affiche = true;
+  } else if (parsecs > 100000 && !badge3Affiche) {
+    afficherBadgeEtAlerte(parsecs, 3);
+    badge3Affiche = true;
+  }
 };
 
 // Fonction appelée à chaque clic sur un item
@@ -132,6 +143,8 @@ $(document).ready(() => {
   $(".purchaseList").on("click", ".purchaseItem", onClickItem);
   $(".resetButton").on("click", onResetGame);
 });
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // Pluie d'asteroides
 
@@ -162,7 +175,7 @@ document.querySelector('.lune').addEventListener('click', function() {
   }, 2000);
 });
 
-
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 // Variable pour suivre l'état de la musique
@@ -189,3 +202,132 @@ const toggleMusic = () => {
 
 // Ajouter un écouteur d'événements sur le bouton
 document.getElementById('playMusicButton').addEventListener('click', toggleMusic);
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// Fonction pour afficher une alerte
+const afficherAlerte = (message) => {
+  // Crée un élément div pour l'alerte
+  const alerteDiv = $('<div></div>').text(message).addClass('alerte');
+
+  // Ajoute l'alerte à la page
+  $('body').append(alerteDiv);
+
+  // Supprime l'alerte après 5 secondes
+  setTimeout(() => {
+    alerteDiv.fadeOut(1000, () => {
+      alerteDiv.remove();
+    });
+  }, 5000);
+};
+
+// Variables pour suivre si chaque badge a déjà été affiché
+let badge1Affiche = false;
+let badge2Affiche = false;
+let badge3Affiche = false;
+
+// Fonction pour afficher le badge et l'alerte correspondante
+const afficherBadgeEtAlerte = (score, badgeNumber) => {
+  // Sélectionne l'élément HTML du conteneur de badge
+  const badgeContainer = $('#badgeContainer');
+
+  // Crée un élément image pour le badge
+  const badgeImage = $('<img>').attr('alt', 'Badge de réalisation');
+
+  // Efface le contenu précédent du conteneur de badge
+  badgeContainer.empty();
+
+  // Ajoute un élément div vide avec une classe CSS spécifique dans le conteneur de badge
+  const badgeDiv = $('<div>').addClass('badge-container');
+  badgeContainer.append(badgeDiv);
+
+  // Détermine quel badge afficher en fonction du score
+  let badgeSrc = '';
+  let alertMessage = '';
+  if (badgeNumber === 1) {
+    badgeSrc = "assets/images/badge-1.png";
+    alertMessage = "Félicitations ! Vous êtes maintenant un Observateur !";
+  } else if (badgeNumber === 2) {
+    badgeSrc = "assets/images/badge-2.png";
+    alertMessage = "Félicitations ! Vous êtes maintenant un Explorateur !";
+  } else if (badgeNumber === 3) {
+    badgeSrc = "assets/images/badge-3.png";
+    alertMessage = "Félicitations ! Vous êtes maintenant un Aventurier !";
+  } else {
+    // Aucun badge n'a été obtenu
+    return;
+  }
+
+  // Définit la source de l'image et ajoute la classe CSS pour le badge
+  badgeImage.attr('src', badgeSrc).addClass('bottomBadge');
+
+  // Ajoute l'image du badge dans le conteneur de badge
+  badgeDiv.append(badgeImage);
+
+  // Affiche l'alerte pendant 5 secondes
+  afficherAlerte(alertMessage);
+};
+// Appelle la fonction pour vérifier et afficher le badge lorsque le score est mis à jour
+const scoreMaj = () => {
+  const scoreJoueur = parsecs; // Utilise la variable 'parsecs' définie dans ton code
+  afficherBadgeEtAlerte(scoreJoueur);
+};
+
+// Appelle la fonction initiale pour vérifier et afficher le badge au chargement de la page
+scoreMaj();
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// Tableau contenant les chemins d'accès aux images d'astronautes
+const astronautImages = [
+  'assets/images/astro-1.png',
+  'assets/images/astro-2.png',
+  'assets/images/astro-3.png',
+  'assets/images/astro-4.png',
+  'assets/images/astro-5.png'
+];
+
+// Fonction pour sélectionner une image aléatoire et l'afficher à l'écran
+const displayRandomAstronaut = () => {
+  // Sélectionne une image aléatoire dans le tableau
+  const randomIndex = Math.floor(Math.random() * astronautImages.length);
+  const randomImage = astronautImages[randomIndex];
+
+  // Crée un élément image pour l'astronaute
+  const astronautImage = $('<img></img>').attr('src', randomImage).addClass('astronaut');
+
+  // Définit la position de l'image de manière aléatoire
+  const maxLeft = $(window).width() - astronautImage.width();
+  const maxTop = $(window).height() - astronautImage.height();
+  const left = Math.random() * maxLeft;
+  const top = Math.random() * maxTop;
+
+  astronautImage.css({
+    position: 'absolute',
+    left: left + 'px',
+    top: top + 'px',
+    cursor: 'pointer'
+  });
+
+  // Ajoute l'image à la page et la supprime après 5 secondes
+  $('body').append(astronautImage);
+  setTimeout(() => {
+    astronautImage.remove();
+  }, 5000);
+};
+
+// Fonction pour doubler les parsecs lorsque l'utilisateur clique sur l'image d'astronaute
+const doubleParsecs = () => {
+  parsecs *= 2;
+  localStorage.setItem("parsecs", parsecs);
+  updateParsecsDisplay();
+};
+
+// Écoute l'événement de clic sur l'image d'astronaute
+$(document).on('click', '.astronaut', function() {
+  doubleParsecs();
+  $(this).remove();
+});
+
+// Appelle la fonction de sélection d'image aléatoire toutes les 30 secondes
+setInterval(displayRandomAstronaut, 20000);
