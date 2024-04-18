@@ -23,7 +23,6 @@ body {
 /* Left Container */
 .leftContainer{
     width: calc(100% * 0.5);
-    border: 4px solid white;
     max-height: 96vh;
     overflow-y: auto;
     overflow-x: hidden;
@@ -46,7 +45,7 @@ body {
 
 /* LUNE */
 .lune{
-    width: 40%;
+    width: 80%;
     display: block;
     left: 30%;
     right: 30%;
@@ -57,35 +56,31 @@ body {
     border-radius: 500px;
 }
 .lune:hover{
-    width: 42%;
+    width: 82%;
     top: 23%;
     transition: width 0.2s ease-in-out, top 0.2s ease-in-out;
     cursor:pointer;
 }
 .lune:active{
-    width: 43%;
+    width: 84%;
     top: 27%;
     transition: width 0.2s ease-in-out, top 0.2s ease-in-out;
 }
 
 /* MAIN Container */
-.mainGameContent{
-    width: calc(100% * 0.5);
+.mainGameContent, .mainGameContainer {
+    width: 100%;
     text-align: center;
+    position: relative;
 }
-#startButton{
-    justify-content: center;
-    width: 30%;
-}
-
 
 /* Right Container */
 .rightContainer{
     width: calc(100% * 0.5);
-    border: 4px solid white;
     max-height: 96vh;
     overflow-y: auto;
     overflow-x: hidden;
+    border: 1px solid white;
 }
 
 /* Item list */
@@ -106,7 +101,7 @@ body {
     background: linear-gradient(rgb(0, 0, 0), rgb(173, 173, 173));
 }
 .purchaseItem:hover{
-    background: linear-gradient(90deg, rgb(0, 0, 0), rgb(173, 173, 173));
+    background: linear-gradient(90deg, rgb(93, 129, 237), rgb(49, 97, 244));
     cursor: pointer;
 }
 .amountOfItem{
@@ -124,4 +119,19 @@ body {
     margin-top: 10px;
     color: white;
     text-shadow: 1px 1px 1px black, 1px -1px 1px black, -1px 1px 1px black, -1px -1px 1px black;
+}
+
+/* ANIMATION ASTEROIDE */
+
+.falling-asteroid {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    z-index: 1;
+    animation: fallAnimation 2s linear; /* Animation de chute pendant 2 secondes */
+}
+
+@keyframes fallAnimation {
+    from { top: 0; } /* Position initiale en haut de l'écran */
+    to { top: 95%; } /* Position finale en bas de l'écran */
 }
