@@ -132,3 +132,29 @@ $(document).ready(() => {
   $(".purchaseList").on("click", ".purchaseItem", onClickItem);
   $(".resetButton").on("click", onResetGame);
 });
+
+document.querySelector('.lune').addEventListener('click', function() {
+  var asteroidContainer = document.getElementById('asteroidContainer');
+  var asteroidImage = document.createElement('img');
+  var asteroidImages = [
+      'assets/images/asteroide1.png',
+      'assets/images/asteroide2.png',
+      'assets/images/asteroide3.png'
+  ];
+  var randomIndex = Math.floor(Math.random() * asteroidImages.length);
+  var randomAsteroid = asteroidImages[randomIndex];
+  
+  asteroidImage.src = randomAsteroid;
+  asteroidImage.style.position = 'absolute';
+  asteroidImage.style.width = '50px';
+  asteroidImage.style.height = '50px';
+  asteroidImage.style.zIndex = '1';
+  asteroidImage.style.left = Math.random() * 95 + '%';
+  asteroidImage.style.top = '0';
+  
+  asteroidContainer.appendChild(asteroidImage);
+  
+  setTimeout(function() {
+      asteroidContainer.removeChild(asteroidImage);
+  }, 2000);
+});

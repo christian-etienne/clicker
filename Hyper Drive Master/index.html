@@ -15,7 +15,8 @@
     <div class="leftContainer">
         <h1 class="parsecsAmountDisplay"><span class="parsecsAmount">0</span> Parsecs</h1>
         <p class="pSecRate"><span class="pSecRateNumber">0</span> Parsecs/sec</p>
-        <img class="lune" src="assets/images/lune-clic.png">
+        <img id ="lune" class="lune" src="assets/images/lune-clic.png">
+        <div id="asteroidContainer"></div>
     </div>
 
 
@@ -124,6 +125,10 @@
 
 
     </div>
+    <audio id="backgroundMusic" autoplay loop>
+        <source src="assets/media/Inter-8b.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+      </audio>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="assets/js/script.js"></script>
 
