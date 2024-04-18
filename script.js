@@ -1,46 +1,87 @@
-var score = 0;
-var bucksperclick = 10;
-var multiplicateur = 10;
-var mult_price = 500;
-var softwareBought = false;
-
-(function() {
+// Cette ligne de code définit une fonction qui sera appelée après le chargement complet de l'ensemble de l'arbre DOM.
+document.addEventListener('DOMContentLoaded', function() {
+  var score = 0;
+  var bucksperclick = 10;
+  var numberofNumbers = 0;
+  // Cette fonction ajoute des points au score en utilisant la valeur de bucksperclick,
+  // puis elle affiche le score mis à jour en appelant la fonction displayscore().
   function addbucks() {
-    if (softwareBought) {
-      score += bucksperclick * 2;
-    } else {
-      score += bucksperclick;
-    }
+    score += bucksperclick; 
     displayscore(score);
   }
-
-  setInterval(function() {
-    displayscore(score);
-  }, 10);
-
+  // Cette fonction a pour but d'afficher le score actuel
   function displayscore(score) {
     document.querySelector(".affichage").innerHTML = "Here your bucks : <br>" + score.toLocaleString("en-EN") + "$";
   }
-
+  // Cette ligne de code ajoute un écouteur d'événements à l'élément ayant l'ID "click".
+  // Lorsque l'événement de clic se produit sur cet élément, cela appelle la fonction addbucks()
+  // puis la fonction createRandomImage()
   document.getElementById("click").addEventListener("click", function() {
     addbucks();
+    createRandomImage();
   });
-
-  function augmenterMultiplicateur() {
-    multiplicateur += 10;
+ // Cette fonction a pour but d'afficher les images aléatoires
+  function createRandomImage() {
+  
   }
-
-  document.getElementById("multiplier").addEventListener("click", function() {
-    if (score >= mult_price) {
-      bucksperclick += multiplicateur;
-      augmenterMultiplicateur();
-      document.getElementById("multiplier").innerHTML = "<h2>Multiplier x" + multiplicateur + "</h2> <h4>[Price: " + mult_price.toLocaleString("en-EN") + "]</h4>";
-      score -= mult_price;
-      mult_price = make_price(mult_price); 
+  // Ici se deroule la gestion d'achat, affichage des messages
+  const buyButtons = document.querySelectorAll('.buy-btn');
+  buyButtons.forEach(button => {
+  button.addEventListener('click', function() {
+    const itemPrice = parseInt(this.dataset.price);
+    if (score >= itemPrice) {
+      score -= itemPrice;
+      updateScore();
+      handlePurchase(this);
+      showMessage(`You bought ${this.dataset.item}!`, itemPrice);
+      document.getElementById('message').style.backgroundColor = 'green';
+    } else {
+      showMessage('Not enough money to buy this item.', itemPrice);
+      document.getElementById('message').style.backgroundColor = 'red';
     }
-  });
 
-  var tableNumbers = ["one.jpg", "zero.jpg"];
+    const messageDiv = document.getElementById('message');
+    messageDiv.classList.add('show');
+
+    setTimeout(function() {
+      messageDiv.classList.remove('show');
+      messageDiv.style.backgroundColor = ''; 
+      messageDiv.innerHTML = '';
+    }, 3000);
+  });
+});
+  
+function showMessage(message) {
+  const messageDiv = document.getElementById('message');
+  messageDiv.innerHTML = message;
+  messageDiv.classList.add('show');
+  
+}
+  function updateScore() {
+  
+  }
+ // Cette fonction a pour le but de multiplier les valeurs de clicks
+  function handlePurchase(button) {
+    button.parentNode.remove();
+    if (button.dataset.item === 'Software') {
+      bucksperclick *= 2; 
+      displayscore(score);
+    } else if (button.dataset.item === 'i-core12') {
+      bucksperclick *= 3; 
+      displayscore(score);
+    } else if (button.dataset.item === 'Tech. AI') {
+      bucksperclick *= 4; 
+      displayscore(score);
+    } else if (button.dataset.item === 'AI-Glasses') {
+      bucksperclick *= 5;
+      displayscore(score);
+
+    }
+  }
+});
+
+// La gestion des chiffre binaires
+var tableNumbers = ["one.jpg", "zero.jpg"];
   var numberofNumbers = 0;
   document.getElementById("click").addEventListener("click", function() {
     numberofNumbers++;
@@ -73,49 +114,3 @@ var softwareBought = false;
       }
     }
   });
-
-  document.addEventListener('DOMContentLoaded', function() {
-    const buyButtons = document.querySelectorAll('.buy-btn');
-
-    buyButtons.forEach(button => {
-      button.addEventListener('click', function() {
-        const itemPrice = parseInt(this.dataset.price);
-
-        if (score >= itemPrice) {
-          score -= itemPrice;
-          updateScore();
-          handlePurchase(this);
-          showMessage(`You bought ${this.dataset.item}!`, itemPrice);
-        } else {
-          showMessage('Not enough money to buy this item.', itemPrice);
-        }
-      });
-    });
-
-    function updateScore() {
-    
-    }
-
-    function handlePurchase(button) {
-      button.parentNode.remove();
-      if (button.dataset.item === 'clickBoost') {
-        softwareBought = true;
-      }
-    }
-
-    function showMessage(message, itemPrice) {
-      const messageDiv = document.getElementById('message');
-      messageDiv.innerHTML = message;
-      messageDiv.classList.add('show');
-      setTimeout(function() {
-        messageDiv.classList.remove('show');
-        messageDiv.style.backgroundColor = ''; 
-      }, 3000);
-      if (score >= itemPrice) {
-        messageDiv.style.backgroundColor = 'green';
-      } else {
-        messageDiv.style.backgroundColor = 'red';
-      }
-    }
-  });
-})();
