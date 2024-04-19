@@ -6,6 +6,7 @@
 }
 html {
     overflow-x: hidden;
+    overflow-y: hidden;
 }
 body {
     display: flex; /* Utilisation de flexbox pour la mise en page */
