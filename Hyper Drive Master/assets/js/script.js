@@ -314,8 +314,8 @@ const displayRandomAstronaut = () => {
   const astronautImage = $('<img></img>').attr('src', randomImage).addClass('astronaut');
 
   // Définit la position de l'image de manière aléatoire
-  const maxLeft = $(window).width() - astronautImage.width();
-  const maxTop = $(window).height() - astronautImage.height();
+  const maxLeft = $(window).width() * 0.7 - astronautImage.width();
+  const maxTop = $(window).height() * 0.7 - astronautImage.height();
   const left = Math.random() * maxLeft;
   const top = Math.random() * maxTop;
 

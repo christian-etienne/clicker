@@ -4,6 +4,9 @@
         transform:rotate(360deg);
     }
 }
+html {
+    overflow-x: hidden;
+}
 body {
     display: flex; /* Utilisation de flexbox pour la mise en page */
     height: 100vh; /* Hauteur de la page égale à 100% de la hauteur de la fenêtre */
