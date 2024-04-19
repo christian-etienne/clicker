@@ -48,6 +48,7 @@ body{
     background-image: url(images/dollar.jpg);
     overflow-y: auto;
     max-height: 550px;
+    width: 20%;
 }
 .bonus{
     width: 90%;
@@ -61,7 +62,27 @@ body{
     height: 60px;
     border-style: groove;
     border-width: 10px;
+
 }
+.bonus3{
+    width: 60%;
+    height: 60px;
+}
+
+.item3 {
+    display: none;
+   
+}
+
+.affordable {
+    filter: brightness(50%); /* Ustaw pożądane zaciemnienie */
+  }
+  
+  /* Wygaszenie obrazu */
+  .non-style {
+    filter: brightness(100%); /* Ustaw pożądane wygaszenie */
+  }
+
 .maincontainer{
     display: flex;
     flex-direction: row;
