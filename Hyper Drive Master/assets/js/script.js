@@ -29,6 +29,9 @@ const items = [
 let parsecs = 0;
 let parsecsPerSecond = 0;
 let pSec = null; // Interval pour la mise à jour des parsecs
+let parsecsPerClick = 0.00000001; // Valeur par défaut, ajustez selon vos besoins
+let moonClicks = 0;
+
 
 // Initialisation du jeu
 const initGame = () => {
@@ -98,9 +101,11 @@ const buyItem = (item) => {
 
 // Fonction appelée à chaque clic sur le bouton principal
 const onClickMainButton = () => {
-  parsecs += 0.00000001;
-  localStorage.setItem("parsecs", parsecs);
-  updateParsecsDisplay();
+  moonClicks++; // Augmente le nombre de clics sur la lune
+  parsecs += parsecsPerClick; // Ajoute le nombre de parsecs générés par clic au total de parsecs
+  localStorage.setItem("parsecs", parsecs); // Enregistre le total de parsecs dans le local storage
+  updateParsecsDisplay(); // Met à jour l'affichage du nombre de parsecs
+  updateProgressBar(); // Met à jour la barre de progression
 };
 
 // Fonction appelée à chaque seconde pour mettre à jour le nombre de Parsecs
@@ -331,3 +336,19 @@ $(document).on('click', '.astronaut', function() {
 
 // Appelle la fonction de sélection d'image aléatoire toutes les 30 secondes
 setInterval(displayRandomAstronaut, 20000);
+
+/////////////////////////////////////////////////////////////////////
+
+const updateProgressBar = () => {
+  const progress = (moonClicks % 100) / 100;
+  $('#progressBar').css('width', progress * 100 + '%');
+  if (moonClicks % 100 === 0 && moonClicks !== 0) { // Vérifie si moonClicks est un multiple de 100
+    parsecsPerClick *= 2; // Double le nombre de parsecs par clic
+    moonClicks = 0; // Remet le compteur de clics à zéro
+  }
+};
+const increaseParsPerClick = () => {
+  if (moonClicks % 100 === 0) {
+    parsecsPerClick *= 2;
+  }
+};
