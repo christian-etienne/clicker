@@ -32,8 +32,8 @@ body {
     z-index: 1000; /* au-dessus de tout le reste */
 }
 .astronaut {
-    max-width: 5%; /* Largeur maximale de l'image : 10% de la largeur du conteneur */
-    max-height: 5%; /* Hauteur maximale de l'image : 10% de la hauteur du conteneur */
+    max-width: 10%; /* Largeur maximale de l'image : 10% de la largeur du conteneur */
+    max-height: 10%; /* Hauteur maximale de l'image : 10% de la hauteur du conteneur */
   }
 
 /* Left Container */
