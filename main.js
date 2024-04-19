@@ -12,7 +12,18 @@ let bonusActive = false;
 clickButton.addEventListener('click', () => {
     score++;
     document.getElementById('score').textContent = score;
+
+    localStorage.setItem('clickerScore', score);
+  
+    // Ajouter la classe 'shrink-effect' pour rétrécir le bouton
+    clickButton.classList.add('shrink-effect');
+  
+    // Supprimer la classe 'shrink-effect' après un court délai pour restaurer la taille du bouton
+    setTimeout(() => {
+      clickButton.classList.remove('shrink-effect');
+    }, 200); // 200 millisecondes correspondent à la durée de la transition CSS définie précédemment
 });
+  
 
 function clickWithNormalBonus() {
     score++;
@@ -39,6 +50,7 @@ function buyJuniorDeveloper() {
             // Mettre à jour le score et afficher un message
             score -= 25; // Déduire le coût du développeur junior du score
             document.getElementById('score').textContent = score;
+            localStorage.setItem('clickerScore', score);
             // Activer le bonus et démarrer le timer de 20 secondes
             activateBonus(10); // Le bonus du développeur junior est de +10 par clic
             // Mettre à jour l'affichage du score
@@ -61,7 +73,9 @@ function buyExpertDeveloper() {
         if (score >= 1000) {
             // Mettre à jour le score et afficher un message
             score -= 1000; // Déduire le coût du développeur expert du score
+
             document.getElementById('score').textContent = score;
+            localStorage.setItem('clickerScore', score);
             // Activer le bonus expert et démarrer le timer de 20 secondes
             activateBonus(30); // Le bonus du développeur expert est de +30 par clic
             // Mettre à jour l'affichage du score
@@ -82,6 +96,7 @@ function buyMasterDeveloper() {
       if (score >= 3000) {
         score -= 3000;
         document.getElementById('score').textContent = score;
+        localStorage.setItem('clickerScore', score);
   
         // Activer le bonus automatique et démarrer le timer de 20 secondes
         activateAutoBonus(100);
@@ -162,6 +177,20 @@ function activateBonus(bonusValue) {
         }
     }, 1000); // Actualiser le timer toutes les secondes
 }
+
+// Charger le score depuis localStorage s'il existe
+if (localStorage.getItem('clickerScore')) {
+    score = parseInt(localStorage.getItem('clickerScore'));
+    document.getElementById('score').textContent = score;
+}
+
+
+
+
+
+
+
+
 
 // Appeler la fonction pour gérer l'achat du développeur master
 buyMasterDeveloper();

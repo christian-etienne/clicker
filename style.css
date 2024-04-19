@@ -62,3 +62,12 @@ button {
     align-items: center;
     
 }
+
+
+.shrink-effect {
+    transform: scale(0.9); /* Rétrécit le bouton à 90% de sa taille d'origine */
+  }
+  
+  .video-container {
+    transition: transform 0.2s ease; /* Ajoute une transition douce de 0.2 seconde lors du rétrécissement et de l'agrandissement du bouton */
+  }
