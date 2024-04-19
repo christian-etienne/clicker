@@ -31,13 +31,24 @@ let parsecsPerSecond = 0;
 let pSec = null; // Interval pour la mise à jour des parsecs
 let parsecsPerClick = 0.00000001; // Valeur par défaut, ajustez selon vos besoins
 let moonClicks = 0;
+let level = 0;
 
 
 // Initialisation du jeu
 const initGame = () => {
   parsecs = parseFloat(localStorage.getItem("parsecs")) || 0;
+  level = parseInt(localStorage.getItem("level")) || 1;
   parsecsPerSecond = parseFloat(localStorage.getItem("parsecsPerSecond")) || 0;
+  parsecsPerClick = parseFloat(localStorage.getItem("parsecsPerClick")) || 0.00000001; // Ajout de cette ligne pour récupérer le nombre de parsecs par clic
+  moonClicks = parseFloat(localStorage.getItem("moonClicks")) || 0; // Ajout de cette ligne pour récupérer le nombre de clics sur la lune
   updateUI();
+  updateLevelDisplay(); // Appel de la fonction pour mettre à jour l'affichage du niveau lors de l'initialisation du jeu
+}
+
+// Mise à jour de l'affichage du niveau
+const updateLevelDisplay = () => {
+  const levelDisplay = document.getElementById('level');
+  levelDisplay.textContent = level; // Met à jour l'affichage du niveau
 };
 
 // Mise à jour de l'interface utilisateur
@@ -106,6 +117,7 @@ const onClickMainButton = () => {
   localStorage.setItem("parsecs", parsecs); // Enregistre le total de parsecs dans le local storage
   updateParsecsDisplay(); // Met à jour l'affichage du nombre de parsecs
   updateProgressBar(); // Met à jour la barre de progression
+  updateLevel(); // Met à jour le niveau
 };
 
 // Fonction appelée à chaque seconde pour mettre à jour le nombre de Parsecs
@@ -338,17 +350,28 @@ $(document).on('click', '.astronaut', function() {
 setInterval(displayRandomAstronaut, 20000);
 
 /////////////////////////////////////////////////////////////////////
-
+// Fonction pour mettre à jour la barre de progression
 const updateProgressBar = () => {
   const progress = (moonClicks % 100) / 100;
-  $('#progressBar').css('width', progress * 100 + '%');
-  if (moonClicks % 100 === 0 && moonClicks !== 0) { // Vérifie si moonClicks est un multiple de 100
-    parsecsPerClick *= 2; // Double le nombre de parsecs par clic
-    moonClicks = 0; // Remet le compteur de clics à zéro
+  const progressBar = document.getElementById('progressBar');
+  progressBar.style.width = progress * 100 + '%';
+  if (progress === 0 && moonClicks >= 100) { // Vérifier si la barre est à 100% et que le nombre de clics est supérieur ou égal à 100
+    updateLevel(); // Mettre à jour le niveau
   }
 };
+
+const updateLevel = () => {
+  level = Math.floor(moonClicks / 100);
+  localStorage.setItem("level", level + 1);
+  updateLevelDisplay(); // Supprimez level + 1 comme argument
+  increaseParsPerClick();
+};
+
 const increaseParsPerClick = () => {
-  if (moonClicks % 100 === 0) {
-    parsecsPerClick *= 2;
+  if ((moonClicks + 1) % 100 === 0 && moonClicks > 0) { // Vérifier si le nombre de clics est un multiple de 100 (en tenant compte du clic actuel) et que le niveau est supérieur à 0
+    parsecsPerClick *= 2; // Doubler le nombre de parsecs par clic
+    localStorage.setItem("parsecsPerClick", parsecsPerClick); // Sauvegarder le nouveau nombre de parsecs par clic dans le stockage local
   }
 };
+
+updateLevel();
