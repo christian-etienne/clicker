@@ -48,7 +48,7 @@ const initGame = () => {
 // Mise à jour de l'affichage du niveau
 const updateLevelDisplay = () => {
   const levelDisplay = document.getElementById('level');
-  levelDisplay.textContent = level; // Met à jour l'affichage du niveau
+  //levelDisplay.textContent = level; // Met à jour l'affichage du niveau
 };
 
 // Mise à jour de l'interface utilisateur
@@ -362,7 +362,7 @@ const updateProgressBar = () => {
 
 const updateLevel = () => {
   level = Math.floor(moonClicks / 100);
-  localStorage.setItem("level", level + 1);
+  localStorage.setItem("level", level);
   updateLevelDisplay(); // Supprimez level + 1 comme argument
   increaseParsPerClick();
 };
