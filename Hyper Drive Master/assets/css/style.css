@@ -156,5 +156,5 @@ body {
 
 @keyframes fallAnimation {
     from { top: 0; } /* Position initiale en haut de l'écran */
-    to { top: 95%; } /* Position finale en bas de l'écran */
+    to { top: 90%; } /* Position finale en bas de l'écran */
 }
