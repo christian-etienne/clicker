@@ -1,6 +1,6 @@
 // Définition des constantes du jeu
 const Constants = {
-  priceMultiplier: 1.15 // Multiplicateur de prix pour les améliorations
+  priceMultiplier: 1.30 // Multiplicateur de prix pour les améliorations
 };
 
 // Définition des items disponibles à l'achat
