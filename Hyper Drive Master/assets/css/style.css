@@ -34,6 +34,7 @@ body {
 .astronaut {
     max-width: 10%; /* Largeur maximale de l'image : 10% de la largeur du conteneur */
     max-height: 10%; /* Hauteur maximale de l'image : 10% de la hauteur du conteneur */
+    padding: 10%;
   }
 
 /* Left Container */
