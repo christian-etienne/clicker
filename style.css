@@ -75,7 +75,7 @@ body{
 }
 
 .affordable {
-    filter: brightness(50%); /* Ustaw pożądane zaciemnienie */
+    filter: brightness(30%); /* Ustaw pożądane zaciemnienie */
   }
   
   /* Wygaszenie obrazu */
@@ -90,6 +90,14 @@ body{
 .main{
     width: 200px;
     height: 150px;
+}
+.restart{
+    width: 60%;
+    height: 40px;
+    background-color: white;
+    align-self: center;
+    margin-top: 300px;
+    border-radius: 10px;
 }
 
 #click {

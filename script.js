@@ -4,7 +4,8 @@ document.addEventListener('DOMContentLoaded', function() {
   var score = 0;
   var bucksperclick = 10;
   var totalItemsbought = 0;
-  var autoClickerInterval
+  var autoClickerInterval;
+  var purchasedItems = localStorage.getItem('purchasedItems') ? localStorage.getItem('purchasedItems').split(',') : [];
 
   // Cette fonction ajoute des points au score en utilisant la valeur de bucksperclick,
   // puis elle affiche le score mis à jour en appelant la fonction displayscore().
@@ -24,34 +25,31 @@ document.addEventListener('DOMContentLoaded', function() {
   // puis la fonction createRandomImage()
   document.getElementById("click").addEventListener("click", function() {
     addbucks();
-    createRandomImage();
     highlightAffordableProducts();
    
   });
- // Cette fonction a pour but d'afficher les images aléatoires
-  function createRandomImage() {
-  
-  }
+ // Appelle la fonction pour mettre en surbrillance les produits pour lesquels il y a suffisamment d'argent + localstorage
   function highlightAffordableProducts() {
     const buyButtons = document.querySelectorAll('.buy-btn');
     buyButtons.forEach(button => {
       const itemPrice = parseInt(button.dataset.price);
-      const productImage = button.previousElementSibling; // Wybierz obraz produktu
-      if (score < itemPrice) {
-        
-        productImage.classList.add('affordable'); // Dodaj klasę "affordable", aby podświetlić obraz
-        productImage.classList.remove('non-style');
-      }else if (score >= itemPrice){
-        productImage.classList.remove('affordable'); // Dodaj klasę "affordable", aby podświetlić obraz
-        productImage.classList.add('non-style');
-        localStorage.setItem('clickerScore', score);
-
-        
+      const productImage = button.previousElementSibling;
+      productImage.style.display = 'block';
+  
+      if (purchasedItems.includes(button.dataset.item)) {
+        productImage.style.display = 'none';
+      } else {
+        if (score < itemPrice) {
+          productImage.classList.add('affordable');
+          productImage.classList.remove('non-style');
+        } else if (score >= itemPrice) {
+          productImage.classList.remove('affordable');
+          productImage.classList.add('non-style');
+        }
       }
     });
-  }
   
-  // Wywołaj funkcję, aby zaktualizować wygląd obrazów na podstawie dostępności pieniędzy gracza
+  }
  
   // Ici se deroule la gestion d'achat, affichage des messages
   const buyButtons = document.querySelectorAll('.buy-btn');
@@ -62,9 +60,9 @@ document.addEventListener('DOMContentLoaded', function() {
       score -= itemPrice;
       updateScore();
       handlePurchase(this);
-      showMessage(`You bought ${this.dataset.item}!`, itemPrice);
+      showMessage(`You bought this.dataset.item!`, itemPrice);
       totalItemsbought ++;
-      if(totalItemsbought ===4){
+      if(totalItemsbought ===7){
         showMatrixBooster();
       }
       document.getElementById('message').style.backgroundColor = 'green';
@@ -80,16 +78,16 @@ document.addEventListener('DOMContentLoaded', function() {
       messageDiv.classList.remove('show');
       messageDiv.style.backgroundColor = ''; 
       messageDiv.innerHTML = '';
-    }, 3000);
+      }, 3000);
+    });
   });
-});
   
-function showMessage(message) {
+  function showMessage(message) {
   const messageDiv = document.getElementById('message');
   messageDiv.innerHTML = message;
   messageDiv.classList.add('show');
   
-}
+  }
   function updateScore() {
     displayscore(score);
   }
@@ -101,16 +99,32 @@ function showMessage(message) {
   // Cette fonction modifie le style des images des produits pour lesquels il y a suffisamment d'argent
  
 
-  // Appelle la fonction pour mettre en surbrillance les produits pour lesquels il y a suffisamment d'argent
+  
 
-
+  function AutoClicker(){
+    autoClickerInterval = setInterval(addbucks, 100)
+  }
 
   function handlePurchase(button) {
-    updateScore()
+    updateScore();
+    const itemName = button.dataset.item;
+    purchasedItems.push(itemName);
+    localStorage.setItem('purchasedItems', purchasedItems);
+
     button.parentNode.remove();
+
+    if (localStorage.getItem('purchasedItems')) {
+      purchasedItems = localStorage.getItem('purchasedItems').split(',');
+      purchasedItems.forEach(item => {
+        if (item === 'Autoclick') {
+          AutoClicker();
+        }
+      });
+    }
+
     if (button.dataset.item === 'Software') {
       bucksperclick *= 2; 
-      updateScore()
+      updateScore();
       displayscore(score);
     } else if (button.dataset.item === 'i-core12') {
       bucksperclick *= 3; 
@@ -125,25 +139,43 @@ function showMessage(message) {
       bucksperclick *= 6;
       displayscore(score);
     } else if (button.dataset.item === 'Algorithmcrasher'){
-      document.getElementById('second_container').style.backgroundImage = 'url("images/div.gif")';
+     
       bucksperclick *= 7;
       displayscore(score);
-    } else if (button.dataset.item === 'MatrixBooster'){
+    } else if (button.dataset.item === 'Autoclick'){
+      AutoClicker();
+      displayscore(score);
+    }
+    else if (button.id === 'Matrixbooster'){
+      document.getElementById('second_container').style.backgroundImage = 'url("images/div.gif")';
       
       bucksperclick *= 10;
       displayscore(score);
-     
-    }
+     }
     
   }
   if (localStorage.getItem('clickerScore')) {
     score = parseInt(localStorage.getItem('clickerScore'));
     displayscore(score);
  }
-});
+ if (localStorage.getItem('purchasedItems')){
+  item2 = localStorage.getItem('purchasedItems')
+ displayscore(score);
 
-// La gestion des chiffre binaires
-var tableNumbers = ["one.jpg", "zero.jpg"];
+}
+ 
+  });
+
+
+  document.getElementById('restartButton').addEventListener('click', function(){
+  localStorage.removeItem ('clickerScore');
+  localStorage.removeItem('purchasedItems');
+  location.reload();
+  
+  });
+
+  // La gestion des chiffre binaires
+  var tableNumbers = ["one.jpg", "zero.jpg"];
   var numberofNumbers = 0;
   document.getElementById("click").addEventListener("click", function() {
     numberofNumbers++;
@@ -176,6 +208,6 @@ var tableNumbers = ["one.jpg", "zero.jpg"];
       }
     }
     
-  });
+});
  
 
