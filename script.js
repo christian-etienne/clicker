@@ -7,6 +7,13 @@ document.addEventListener('DOMContentLoaded', function() {
   var autoClickerInterval;
   var purchasedItems = localStorage.getItem('purchasedItems') ? localStorage.getItem('purchasedItems').split(',') : [];
 
+
+  purchasedItems.forEach(function(item) {
+  var buyButton = document.querySelector('.buy-btn[data-item="' + item + '"]');
+    if (buyButton) {
+      buyButton.parentNode.remove();
+    }
+  });
   // Cette fonction ajoute des points au score en utilisant la valeur de bucksperclick,
   // puis elle affiche le score mis à jour en appelant la fonction displayscore().
   function addbucks() {
@@ -104,18 +111,17 @@ document.addEventListener('DOMContentLoaded', function() {
   function AutoClicker(){
     autoClickerInterval = setInterval(addbucks, 100)
   }
-
   function handlePurchase(button) {
     updateScore();
-    const itemName = button.dataset.item;
-    purchasedItems.push(itemName);
-    localStorage.setItem('purchasedItems', purchasedItems);
-
     button.parentNode.remove();
-
-    if (localStorage.getItem('purchasedItems')) {
-      purchasedItems = localStorage.getItem('purchasedItems').split(',');
-      purchasedItems.forEach(item => {
+  
+    const purchasedItemsFromStorage = localStorage.getItem('purchasedItems') ? localStorage.getItem('purchasedItems').split(',') : [];
+    const newItem = button.dataset.item;
+  
+    if (!purchasedItemsFromStorage.includes(newItem)) {
+      purchasedItemsFromStorage.push(newItem);
+      localStorage.setItem('purchasedItems', purchasedItemsFromStorage.join(','));
+    purchasedItemsFromStorage.forEach(item => {
         if (item === 'Autoclick') {
           AutoClicker();
         }
@@ -154,15 +160,11 @@ document.addEventListener('DOMContentLoaded', function() {
      }
     
   }
-  if (localStorage.getItem('clickerScore')) {
-    score = parseInt(localStorage.getItem('clickerScore'));
-    displayscore(score);
- }
- if (localStorage.getItem('purchasedItems')){
-  item2 = localStorage.getItem('purchasedItems')
- displayscore(score);
-
-}
+    if (localStorage.getItem('clickerScore')) {
+      score = parseInt(localStorage.getItem('clickerScore'));
+      displayscore(score);
+    }
+    
  
   });
 
@@ -170,6 +172,7 @@ document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('restartButton').addEventListener('click', function(){
   localStorage.removeItem ('clickerScore');
   localStorage.removeItem('purchasedItems');
+
   location.reload();
   
   });

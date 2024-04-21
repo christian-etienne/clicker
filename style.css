@@ -29,7 +29,7 @@ body{
     background-color: aquamarine;
 }
 #second_container{
-    background-image: url(images/Table.jpg);
+    background-image: url(images/wall.jpg);
     height: 550px;
     width: 30%;
     display: flex;
@@ -86,6 +86,7 @@ body{
 .maincontainer{
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
 }
 .main{
     width: 200px;
@@ -126,4 +127,7 @@ body{
 	transition-duration: .1s;
   transform: scale(1.5);
   outline: 4;
+}
+.purchasedItemsFromStorage{
+    display: none;
 }
